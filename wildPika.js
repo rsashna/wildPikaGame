@@ -10,11 +10,12 @@ bg.src = "images/forrest.png";
 //mostly useful variables
 var gravity = 1.5;
 var bY=-ball.height;
-var bX=100;
+var bX=Math.floor((Math.random() * (cvs.width-ball.width)) + 5);
 var pikaX=120;
 var pikaY=150;
 var counter=100;
 var score=0;
+var lvl=0;
 // audio files
 //TODO music?
 // var fly = new Audio();
@@ -33,28 +34,34 @@ var score=0;
             }
   });
   function draw(){
-      // redraw backgroung, pika and the ball
+      // redraw background, pika and the ball
           ctx.drawImage(bg,0,0);
           ctx.drawImage(pika,pikaX,pikaY);
           ctx.drawImage(ball,bX,bY);
+          ctx.fillText("Level: "+lvl,5,50);
           bY += gravity;
           ctx.fillStyle = "#000";
-          ctx.font = "20px Verdana";
-
-          ctx.fillText("Score : "+score,10,cvs.height-20);
+          ctx.font = "16px Verdana";
+          ctx.fillText("Score: "+score,5,cvs.height-20);
           if(checkCol()==1){
             location.reload();
           }else if((bY+ball.height)==cvs.height){
           score++;
+          nextLvl();
           }
           requestAnimationFrame(draw);
       }
-
 function checkCol(){
   if((bY+ball.height)>=(cvs.height-ball.height) && (bX>=(pikaX-ball.width) && bX<=pikaX+pika.width))
   return 1;
   else {
     return 0;
   }
+}
+function nextLvl(){
+  lvl++;
+  bX=Math.floor((Math.random() * (cvs.width-ball.width)) + 5);
+  gravity+=0.2;
+  ctx.fillText("Level: "+lvl,5,40);
 }
 draw();
