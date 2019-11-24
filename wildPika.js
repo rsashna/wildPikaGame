@@ -15,7 +15,6 @@ var pikaX=120;
 var pikaY=150;
 var counter=100;
 var score=0;
-var lvl=0;
 // audio files
 //TODO music?
 // var fly = new Audio();
@@ -38,7 +37,6 @@ var lvl=0;
           ctx.drawImage(bg,0,0);
           ctx.drawImage(pika,pikaX,pikaY);
           ctx.drawImage(ball,bX,bY);
-          ctx.fillText("Level: "+lvl,5,50);
           bY += gravity;
           ctx.fillStyle = "#000";
           ctx.font = "16px Verdana";
@@ -46,22 +44,22 @@ var lvl=0;
           if(checkCol()==1){
             location.reload();
           }else if((bY+ball.height)==cvs.height){
-          score++;
           nextLvl();
           }
           requestAnimationFrame(draw);
       }
 function checkCol(){
-  if((bY+ball.height)>=(cvs.height-ball.height) && (bX>=(pikaX-ball.width) && bX<=pikaX+pika.width))
+  //returns 1 if collission occurs
+  if((bY+ball.height)>=(cvs.height-ball.height+5) && (bX>=(pikaX-ball.width+5)) && (bX<=pikaX+pika.width-15))
   return 1;
   else {
     return 0;
   }
 }
 function nextLvl(){
-  lvl++;
+  score++;
   bX=Math.floor((Math.random() * (cvs.width-ball.width)) + 5);
-  gravity+=0.2;
-  ctx.fillText("Level: "+lvl,5,40);
+  bY=-ball.height;
+  gravity+=0.5;
 }
 draw();
