@@ -9,11 +9,12 @@ ball.src = "images/ball.png";
 bg.src = "images/forrest.png";
 //mostly useful variables
 var gravity = 1.5;
-var bY=0;
+var bY=-ball.height;
 var bX=100;
 var pikaX=120;
 var pikaY=150;
 var counter=100;
+var score=0;
 // audio files
 //TODO music?
 // var fly = new Audio();
@@ -32,15 +33,28 @@ var counter=100;
             }
   });
   function draw(){
-    // redraw backgroung, pika and the ball
-        ctx.drawImage(bg,0,0);
-        ctx.drawImage(pika,pikaX,pikaY);
-        ctx.drawImage(ball,bX,bY);
-        bY += gravity;
-        ctx.fillStyle = "#000";
-        ctx.font = "20px Verdana";
-    //    ctx.fillText("Score : "+score,10,cvs.height-20);
-        requestAnimationFrame(draw);
-  }
+      // redraw backgroung, pika and the ball
+          ctx.drawImage(bg,0,0);
+          ctx.drawImage(pika,pikaX,pikaY);
+          ctx.drawImage(ball,bX,bY);
+          bY += gravity;
+          ctx.fillStyle = "#000";
+          ctx.font = "20px Verdana";
 
+          ctx.fillText("Score : "+score,10,cvs.height-20);
+          if(checkCol()==1){
+            location.reload();
+          }else if((bY+ball.height)==cvs.height){
+          score++;
+          }
+          requestAnimationFrame(draw);
+      }
+
+function checkCol(){
+  if((bY+ball.height)>=(cvs.height-ball.height) && (bX>=(pikaX-ball.width) && bX<=pikaX+pika.width))
+  return 1;
+  else {
+    return 0;
+  }
+}
 draw();
